@@ -42,3 +42,6 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+#generated code
+/lib/src/app_resources/locale_keys.g.dart
