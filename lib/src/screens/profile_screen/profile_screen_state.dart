@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 
-class WelcomeScreenState extends Equatable {
-  const WelcomeScreenState();
+class ProfileScreenState extends Equatable {
+  const ProfileScreenState();
 
   @override
   List<Object> get props => [];

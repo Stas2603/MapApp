@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class WelcomeScreenView extends StatelessWidget {
-  const WelcomeScreenView({super.key});
+class ProfileScreenView extends StatelessWidget {
+  const ProfileScreenView({super.key});
 
   @override
   Widget build(BuildContext context) {
