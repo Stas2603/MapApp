@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 
-class WelcomeScreenState extends Equatable {
-  const WelcomeScreenState();
+class MainScreenState extends Equatable {
+  const MainScreenState();
 
   @override
   List<Object> get props => [];

@@ -6,11 +6,11 @@ import 'package:map_app/src/screens/welcome_screen/welcome_screen_view.dart';
 class RouteGenerator {
   static Route generateRoute(RouteSettings settings) {
     switch (settings.name) {
-      case '/':
+      case '/welcome':
         return MaterialPageRoute(
           builder: (context) => const WelcomeScreenView(),
         );
-      case '/main':
+      case '/':
         return MaterialPageRoute(
           builder: (context) => const MainScreenView(),
         );
