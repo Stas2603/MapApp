@@ -10,7 +10,7 @@ class RouteGenerator {
         return MaterialPageRoute(
           builder: (context) => const WelcomeScreenView(),
         );
-      case '/':
+      case '/main':
         return MaterialPageRoute(
           builder: (context) => const MainScreenView(),
         );

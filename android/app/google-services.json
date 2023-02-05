@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "888301689916",
+    "firebase_url": "https://mapapp-a878f-default-rtdb.europe-west1.firebasedatabase.app",
     "project_id": "mapapp-a878f",
     "storage_bucket": "mapapp-a878f.appspot.com"
   },
@@ -13,6 +14,14 @@
         }
       },
       "oauth_client": [
+        {
+          "client_id": "888301689916-iho5a428m404b2307mavicjpi1n7ltpa.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.map_app",
+            "certificate_hash": "62b2e852510c9a069af5648cad224bf822f6d954"
+          }
+        },
         {
           "client_id": "888301689916-usjenirolj6erofc0d4i9s5bgd1uasvp.apps.googleusercontent.com",
           "client_type": 3

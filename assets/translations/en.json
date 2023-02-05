@@ -2,5 +2,7 @@
     "mapApp": "Map App",
     "signInWith": "Sign in with:",
     "profile": "Profile",
-    "signOut": "Sign out"
+    "signOut": "Sign out",
+    "ok": "OK",
+    "information": "Information:"
 }

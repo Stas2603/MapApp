@@ -12,7 +12,10 @@ init() async {
 //Bloc
   sl.registerFactory(
       () => WelcomeScreenCubit(appPreferences: sl(), googleSignInApi: sl()));
-  sl.registerFactory(() => MainScreenCubit());
+  sl.registerFactory(() => MainScreenCubit(
+        appPreferences: sl(),
+        googleSignInApi: sl(),
+      ));
   sl.registerFactory(() => ProfileScreenCubit());
 
 //UseCases
