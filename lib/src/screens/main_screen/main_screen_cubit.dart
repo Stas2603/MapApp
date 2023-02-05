@@ -2,10 +2,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:map_app/data/shared_preferances/app_preferances.dart';
 import 'package:map_app/src/models/selectedUserInfo.dart';
 import 'package:map_app/src/screens/main_screen/main_screen_state.dart';
-import 'package:permission_handler/permission_handler.dart';
 
 class MainScreenCubit extends Cubit<MainScreenState> {
   MainScreenCubit({

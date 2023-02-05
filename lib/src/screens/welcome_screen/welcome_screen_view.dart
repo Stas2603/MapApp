@@ -1,7 +1,7 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:map_app/src/app_resources/locale_keys.g.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:map_app/src/screens/welcome_screen/welcome_screen_cubit.dart';
 import '../../map_app.dart';
 

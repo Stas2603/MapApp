@@ -16,7 +16,7 @@ init() async {
         appPreferences: sl(),
         googleSignInApi: sl(),
       ));
-  sl.registerFactory(() => ProfileScreenCubit());
+  sl.registerFactory(() => ProfileScreenCubit(appPreferences: sl()));
 
 //UseCases
 
