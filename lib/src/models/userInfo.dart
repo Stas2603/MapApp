@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:equatable/equatable.dart';
 
 class UserInfo extends Equatable {
@@ -6,6 +7,7 @@ class UserInfo extends Equatable {
   final String? avatarUrl;
   final String? latitude;
   final String? longitude;
+  final int? markerColor;
 
   const UserInfo({
     required this.name,
@@ -13,6 +15,7 @@ class UserInfo extends Equatable {
     required this.avatarUrl,
     required this.latitude,
     required this.longitude,
+    required this.markerColor,
   });
 
   @override
@@ -22,6 +25,7 @@ class UserInfo extends Equatable {
         avatarUrl,
         latitude,
         longitude,
+        markerColor,
       ];
 
   Map<String, dynamic> toMap() {
@@ -31,6 +35,7 @@ class UserInfo extends Equatable {
       'avatarUrl': avatarUrl,
       'latitude': latitude,
       'longitude': longitude,
+      'markerColor': markerColor,
     };
   }
 
@@ -41,6 +46,13 @@ class UserInfo extends Equatable {
       avatarUrl: map['avatarUrl'] != null ? map['avatarUrl'] as String : null,
       latitude: map['latitude'] != null ? map['latitude'] as String : null,
       longitude: map['longitude'] != null ? map['longitude'] as String : null,
+      markerColor:
+          map['markerColor'] != null ? map['markerColor'] as int : null,
     );
   }
+
+  String toJson() => json.encode(toMap());
+
+  factory UserInfo.fromJson(String source) =>
+      UserInfo.fromMap(json.decode(source) as Map<String, dynamic>);
 }

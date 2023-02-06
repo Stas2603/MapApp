@@ -29,6 +29,15 @@ class _MainScreenViewState extends State<MainScreenView> {
   LatLng selectedUser = const LatLng(0, 0);
   Set<Polyline> polylines = <Polyline>{};
 
+  @override
+  void initState() {
+    addPolylines();
+    context.read<MainScreenCubit>().initParams();
+    getCurrentLocation();
+
+    super.initState();
+  }
+
   void addPolylines() {
     polylines.add(
       Polyline(
@@ -38,15 +47,6 @@ class _MainScreenViewState extends State<MainScreenView> {
         width: 6,
       ),
     );
-  }
-
-  @override
-  void initState() {
-    addPolylines();
-    context.read<MainScreenCubit>().initParams();
-    getCurrentLocation();
-
-    super.initState();
   }
 
   void getCurrentLocation() async {
@@ -111,15 +111,15 @@ class _MainScreenViewState extends State<MainScreenView> {
     }
   }
 
+  Future<void> _disposeController() async {
+    final GoogleMapController controller = await _controller.future;
+    controller.dispose();
+  }
+
   @override
   void dispose() {
     _disposeController();
     super.dispose();
-  }
-
-  Future<void> _disposeController() async {
-    final GoogleMapController controller = await _controller.future;
-    controller.dispose();
   }
 
   @override
@@ -130,8 +130,8 @@ class _MainScreenViewState extends State<MainScreenView> {
           centerTitle: true,
         ),
         drawer: NavigationBarDrawer(onTap: () async {
-          await context.read<MainScreenCubit>().onSignOut();
           Navigator.of(context).pushNamed('/welcome');
+          await context.read<MainScreenCubit>().onSignOut();
         }),
         floatingActionButton: Padding(
           padding: const EdgeInsets.only(right: 50.0),
@@ -181,8 +181,10 @@ class _MainScreenViewState extends State<MainScreenView> {
         final markerId = key;
         final latitude = value['latitude'];
         final longitude = value['longitude'];
+        final markerColor = value['markerColor'];
 
         final marker = Marker(
+          icon: _markerColor(markerColor),
           markerId: MarkerId(markerId),
           position: LatLng(
             double.parse(latitude),
@@ -215,6 +217,22 @@ class _MainScreenViewState extends State<MainScreenView> {
         );
         listMarker.add(marker);
       });
+    }
+  }
+
+  BitmapDescriptor _markerColor(int color) {
+    if (color == Colors.blue.value) {
+      return BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue);
+    } else if (color == Colors.orange.value) {
+      return BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueOrange);
+    } else if (color == Colors.yellow.value) {
+      return BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueYellow);
+    } else if (color == Colors.green.value) {
+      return BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen);
+    } else if (color == Colors.cyan.value) {
+      return BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueCyan);
+    } else {
+      return BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed);
     }
   }
 }

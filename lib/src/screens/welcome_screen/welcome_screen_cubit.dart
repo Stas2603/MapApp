@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:map_app/data/shared_preferances/app_preferances.dart';
@@ -38,10 +39,12 @@ class WelcomeScreenCubit extends Cubit<WelcomeScreenState> {
     final userName = _user!.displayName ?? 'User';
     final userEmail = _user!.email;
     final userAvatar = _user!.photoUrl ?? 'assets/images/anonymous_user.png';
+    final markerColor = Colors.red.value;
 
     appPreferences.putString('userName', userName);
     appPreferences.putString('userEmail', userEmail);
     appPreferences.putString('userAvatar', userAvatar);
+    appPreferences.putString('markerColor', markerColor.toString());
 
     await _getAllUsersEmail();
 
@@ -72,7 +75,8 @@ class WelcomeScreenCubit extends Cubit<WelcomeScreenState> {
           email: userEmail,
           avatarUrl: userAvatar,
           latitude: '0',
-          longitude: '0');
+          longitude: '0',
+          markerColor: Colors.red.value);
 
       DatabaseReference ref = FirebaseDatabase.instance.ref("users/");
       DatabaseReference newRef = ref.push();
