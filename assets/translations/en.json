@@ -4,5 +4,7 @@
     "profile": "Profile",
     "signOut": "Sign out",
     "ok": "OK",
-    "information": "Information:"
+    "information": "Information:",
+    "routeTo": "Route To User",
+    "cancelRouteTo": "Cancel route"
 }

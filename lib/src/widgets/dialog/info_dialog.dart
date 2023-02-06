@@ -8,6 +8,8 @@ Future<void> showInfoDialog({
   required String? avatar,
   required String? name,
   required String? email,
+  required void Function()? onPressed,
+  required void Function()? onCancel,
 }) {
   final size = MediaQuery.of(context).size;
   return showDialog(
@@ -32,6 +34,16 @@ Future<void> showInfoDialog({
               isDefaultAction: true,
               onPressed: () => Navigator.pop(context),
               child: Text(LocaleKeys.ok.tr()),
+            ),
+            CupertinoDialogAction(
+              isDefaultAction: true,
+              onPressed: onPressed,
+              child: Text(LocaleKeys.routeTo.tr()),
+            ),
+            CupertinoDialogAction(
+              isDefaultAction: true,
+              onPressed: onCancel,
+              child: Text(LocaleKeys.cancelRouteTo.tr()),
             ),
           ],
         );

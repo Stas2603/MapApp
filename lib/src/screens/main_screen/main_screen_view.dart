@@ -3,6 +3,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:map_app/src/app_resources/locale_keys.g.dart';
@@ -23,9 +24,25 @@ class MainScreenView extends StatefulWidget {
 class _MainScreenViewState extends State<MainScreenView> {
   LocationData? currentLocation;
   final Completer<GoogleMapController> _controller = Completer();
+  String searchAdr = '';
+  List<LatLng> polylineCoordinates = [];
+  LatLng selectedUser = const LatLng(0, 0);
+  Set<Polyline> polylines = <Polyline>{};
+
+  void addPolylines() {
+    polylines.add(
+      Polyline(
+        polylineId: const PolylineId('route'),
+        points: polylineCoordinates,
+        color: Colors.blue,
+        width: 6,
+      ),
+    );
+  }
 
   @override
   void initState() {
+    addPolylines();
     context.read<MainScreenCubit>().initParams();
     getCurrentLocation();
 
@@ -74,6 +91,26 @@ class _MainScreenViewState extends State<MainScreenView> {
         currentLocation!.longitude!.toString());
   }
 
+  void takeRoute() async {
+    PolylinePoints polylinePoints = PolylinePoints();
+
+    PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
+        'AIzaSyAZrqQcYnmLG4FlpKugIzkCFjR9VPsIptg',
+        PointLatLng(currentLocation!.latitude!, currentLocation!.longitude!),
+        PointLatLng(selectedUser.latitude, selectedUser.longitude));
+
+    polylineCoordinates.clear();
+
+    if (result.points.isNotEmpty) {
+      result.points.forEach(
+        (PointLatLng point) => polylineCoordinates.add(
+          LatLng(point.latitude, point.longitude),
+        ),
+      );
+      setState(() {});
+    }
+  }
+
   @override
   void dispose() {
     _disposeController();
@@ -120,6 +157,7 @@ class _MainScreenViewState extends State<MainScreenView> {
               _buildMarkerList(snapshot);
 
               return GoogleMap(
+                  polylines: polylines,
                   initialCameraPosition: CameraPosition(
                     zoom: 14,
                     target: LatLng(
@@ -155,12 +193,24 @@ class _MainScreenViewState extends State<MainScreenView> {
                 .read<MainScreenCubit>()
                 .onTakeSelectedUserInfo(markerId);
 
-            showInfoDialog(
-              context: context,
-              avatar: userInfo.avatarUrl,
-              name: userInfo.name,
-              email: userInfo.email,
+            selectedUser = LatLng(
+              double.parse(userInfo.latitude!),
+              double.parse(userInfo.longitude!),
             );
+
+            showInfoDialog(
+                context: context,
+                avatar: userInfo.avatarUrl,
+                name: userInfo.name,
+                email: userInfo.email,
+                onPressed: () {
+                  takeRoute();
+                  Navigator.pop(context);
+                },
+                onCancel: () {
+                  polylineCoordinates.clear();
+                  Navigator.pop(context);
+                });
           },
         );
         listMarker.add(marker);
