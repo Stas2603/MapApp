@@ -4,8 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:map_app/data/shared_preferances/app_preferances.dart';
-import 'package:map_app/src/models/selectedUserInfo.dart';
 import 'package:map_app/src/screens/main_screen/main_screen_state.dart';
+import 'package:map_app/src/models/userInfo.dart' as app;
 
 class MainScreenCubit extends Cubit<MainScreenState> {
   MainScreenCubit({
@@ -35,20 +35,26 @@ class MainScreenCubit extends Cubit<MainScreenState> {
     }
   }
 
-  Future<SelectedUserInfo> onTakeSelectedUserInfo(String id) async {
-    var selectedUserInfo =
-        const SelectedUserInfo(name: '', email: '', avatarUrl: '');
+  Future<app.UserInfo> onTakeSelectedUserInfo(String id) async {
+    var selectedUserInfo = const app.UserInfo(
+      name: '',
+      email: '',
+      avatarUrl: '',
+      latitude: '',
+      longitude: '',
+    );
     try {
       final ref = FirebaseDatabase.instance.ref();
       final snapshot = await ref.child('users/$id').get();
       if (snapshot.exists) {
         final data = Map<String, dynamic>.from(snapshot.value as Map);
 
-        selectedUserInfo = SelectedUserInfo(
-          name: data['name'],
-          email: data['email'],
-          avatarUrl: data['avatarUrl'],
-        );
+        selectedUserInfo = app.UserInfo(
+            name: data['name'],
+            email: data['email'],
+            avatarUrl: data['avatarUrl'],
+            latitude: data['latitude'],
+            longitude: data['longitude']);
       } else {
         print('No data available.');
       }
