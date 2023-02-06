@@ -16,6 +16,15 @@ class _ProfileScreenViewState extends State<ProfileScreenView> {
   String userName = '';
   String userEmail = '';
   String userAvatar = '';
+  Color selectedColor = Colors.red;
+  final colorsList = <Color>[
+    Colors.red,
+    Colors.orange,
+    Colors.yellow,
+    Colors.green,
+    Colors.cyan,
+    Colors.blue,
+  ];
 
   @override
   void initState() {
@@ -42,6 +51,11 @@ class _ProfileScreenViewState extends State<ProfileScreenView> {
               _buildAvatar(),
               _buildTextWidget(userName, 40.0),
               _buildTextWidget(userEmail, 30.0),
+              Padding(
+                padding: const EdgeInsets.only(top: 15),
+                child: _buildTextWidget(LocaleKeys.selectColor.tr(), 30.0),
+              ),
+              _buildColorsList(),
             ],
           ),
         ),
@@ -72,8 +86,57 @@ class _ProfileScreenViewState extends State<ProfileScreenView> {
         padding: const EdgeInsets.all(8.0),
         child: Image.network(
           userAvatar,
-          height: 200,
-          width: 150,
+          height: 100,
+          width: 100,
         ));
+  }
+
+  Widget _buildColorsList() {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: GridView.builder(
+        scrollDirection: Axis.vertical,
+        shrinkWrap: true,
+        itemCount: colorsList.length,
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 3,
+          crossAxisSpacing: 10.0,
+          mainAxisSpacing: 10.0,
+        ),
+        itemBuilder: (context, index) {
+          return _buildIconTile(index);
+        },
+      ),
+    );
+  }
+
+  Widget _buildIconTile(int index) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: InkWell(
+        onTap: () {
+          setState(() {
+            selectedColor = colorsList[index];
+            context
+                .read<ProfileScreenCubit>()
+                .onSelectMarkerColor(colorsList[index]);
+          });
+        },
+        child: Container(
+          color: colorsList[index],
+          child: _setIcon(
+            colorsList[index],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Icon _setIcon(Color widgetColor) {
+    if (selectedColor == widgetColor) {
+      return const Icon(Icons.check);
+    } else {
+      return const Icon(null);
+    }
   }
 }

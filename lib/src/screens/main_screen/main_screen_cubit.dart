@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -36,12 +37,13 @@ class MainScreenCubit extends Cubit<MainScreenState> {
   }
 
   Future<app.UserInfo> onTakeSelectedUserInfo(String id) async {
-    var selectedUserInfo = const app.UserInfo(
+    var selectedUserInfo = app.UserInfo(
       name: '',
       email: '',
       avatarUrl: '',
       latitude: '',
       longitude: '',
+      markerColor: Colors.red.value,
     );
     try {
       final ref = FirebaseDatabase.instance.ref();
@@ -50,11 +52,13 @@ class MainScreenCubit extends Cubit<MainScreenState> {
         final data = Map<String, dynamic>.from(snapshot.value as Map);
 
         selectedUserInfo = app.UserInfo(
-            name: data['name'],
-            email: data['email'],
-            avatarUrl: data['avatarUrl'],
-            latitude: data['latitude'],
-            longitude: data['longitude']);
+          name: data['name'],
+          email: data['email'],
+          avatarUrl: data['avatarUrl'],
+          latitude: data['latitude'],
+          longitude: data['longitude'],
+          markerColor: data['markerColor'],
+        );
       } else {
         print('No data available.');
       }
@@ -66,8 +70,8 @@ class MainScreenCubit extends Cubit<MainScreenState> {
 
   Future<void> onSignOut() async {
     try {
-      await googleSignInApi.signOut();
       await FirebaseAuth.instance.signOut();
+      await googleSignInApi.signOut();
 
       appPreferences.putString('userId', '');
     } catch (e) {

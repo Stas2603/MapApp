@@ -6,5 +6,6 @@
     "ok": "OK",
     "information": "Information:",
     "routeTo": "Route To User",
-    "cancelRouteTo": "Cancel route"
+    "cancelRouteTo": "Cancel route",
+    "selectColor": "Select marker color:"
 }
